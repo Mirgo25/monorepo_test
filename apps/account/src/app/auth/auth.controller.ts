@@ -2,6 +2,17 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { IUser } from '@test-monorepo/interfaces';
 import { AuthService } from './auth.service';
 
+export class RegisterDTO {
+  email: string;
+  password: string;
+  displayName?: string;
+}
+
+export class LoginDTO {
+  email: string;
+  password: string;
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -18,15 +29,4 @@ export class AuthController {
     const { id } = await this.authService.validateUser(email, password);
     return this.authService.login(id);
   }
-}
-
-export class RegisterDTO {
-  email: string;
-  password: string;
-  displayName?: string;
-}
-
-export class LoginDTO {
-  email: string;
-  password: string;
 }
