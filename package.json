@@ -34,6 +34,7 @@
     "@nrwl/nest": "13.10.3",
     "@nrwl/node": "13.10.3",
     "@nrwl/workspace": "13.10.3",
+    "@types/bcryptjs": "^2.4.4",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
