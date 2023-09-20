@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { RegisterDTO } from './auth.controller';
 import { UserRepository } from '../user/repositories/user.repository';
 import { UserEntity } from '../user/entities/user.entity';
 import { UserRole } from '@test-monorepo/interfaces';
 import { JwtService } from '@nestjs/jwt';
+import { AccountRegister } from '@test-monorepo/contracts';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +14,7 @@ export class AuthService {
 
   }
 
-  async register({ email, password, displayName }: RegisterDTO) {
+  async register({ email, password, displayName }: AccountRegister.Request) {
     const oldUser = await this.userRepository.findUser(email);
     if (oldUser) {
       throw new Error('Sucn user has already existed');
