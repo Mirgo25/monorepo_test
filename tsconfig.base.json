@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@test-monorepo/contracts": ["libs/contracts/src/index.ts"],
       "@test-monorepo/interfaces": ["libs/interfaces/src/index.ts"]
     }
   },
