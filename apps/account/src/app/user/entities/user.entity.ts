@@ -1,4 +1,4 @@
-import { IUser, UserRole } from "@test-monorepo/interfaces";
+import { IUser, IUserCourse, UserRole } from "@test-monorepo/interfaces";
 import { genSalt, hash, compare } from "bcryptjs";
 
 export class UserEntity implements IUser {
@@ -7,6 +7,7 @@ export class UserEntity implements IUser {
   email: string;
   passwordHash: string;
   role: UserRole;
+  courses?: IUserCourse[];
 
   constructor(user: Omit<IUser, 'passwordHash'>);
   constructor(user: IUser) {
@@ -17,6 +18,7 @@ export class UserEntity implements IUser {
     if (user.passwordHash) {
       this.passwordHash = user.passwordHash;
     }
+    this.courses = user.courses;
   }
 
   public async setPassword(password: string) {
