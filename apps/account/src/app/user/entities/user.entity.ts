@@ -1,4 +1,4 @@
-import { IUser, IUserCourse, UserRole } from "@test-monorepo/interfaces";
+import { IUser, IUserCourse, PurchaseState, UserRole } from "@test-monorepo/interfaces";
 import { genSalt, hash, compare } from "bcryptjs";
 
 export class UserEntity implements IUser {
@@ -19,6 +19,30 @@ export class UserEntity implements IUser {
       this.passwordHash = user.passwordHash;
     }
     this.courses = user.courses;
+  }
+
+  public addCourse(courseId: string) {
+    const exist = this.courses.find((c) => c._id === courseId);
+    if (exist) {
+      throw new Error('This course already exists.');
+    }
+    this.courses.push({
+      courseId,
+      purchaseState: PurchaseState.Started,
+    });
+  }
+
+  public deleteCourse(courseId: string) {
+    this.courses = this.courses.filter((c) => c._id !== courseId);
+  }
+
+  public updateCourseState(courseId: string, state: PurchaseState) {
+    this.courses.map((c) => {
+      if (c._id === courseId) {
+        c.purchaseState = state;
+      }
+      return c;
+    });
   }
 
   public getPublicProfile() {
