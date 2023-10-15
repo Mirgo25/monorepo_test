@@ -1,4 +1,5 @@
-import { IUser, IUserCourse, PurchaseState, UserRole } from "@test-monorepo/interfaces";
+import { AccountChangedCourse } from "@test-monorepo/contracts";
+import { IDomainEvent, IUser, IUserCourse, PurchaseState, UserRole } from "@test-monorepo/interfaces";
 import { genSalt, hash, compare } from "bcryptjs";
 
 export class UserEntity implements IUser {
@@ -8,6 +9,7 @@ export class UserEntity implements IUser {
   passwordHash: string;
   role: UserRole;
   courses?: IUserCourse[];
+  events: IDomainEvent[] = [];
 
   constructor(user: Omit<IUser, 'passwordHash'>);
   constructor(user: IUser) {
@@ -36,11 +38,19 @@ export class UserEntity implements IUser {
       return this;
     }
 
-    this.courses.map((c) => {
+    this.courses = this.courses.map((c) => {
       if (c._id === courseId) {
         c.purchaseState = state;
       }
       return c;
+    });
+    this.events.push({
+      topic: AccountChangedCourse.topic,
+      data: {
+        courseId,
+        userId: this._id,
+        state
+      },
     });
     return this;
   }
