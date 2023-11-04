@@ -1,6 +1,6 @@
-import { AccountChangedCourse } from "@test-monorepo/contracts";
-import { IDomainEvent, IUser, IUserCourse, PurchaseState, UserRole } from "@test-monorepo/interfaces";
-import { genSalt, hash, compare } from "bcryptjs";
+import { AccountChangedCourse } from '@test-monorepo/contracts';
+import { IDomainEvent, IUser, IUserCourse, PurchaseState, UserRole } from '@test-monorepo/interfaces';
+import { genSalt, hash, compare } from 'bcryptjs';
 
 export class UserEntity implements IUser {
   _id?: string;
@@ -49,10 +49,14 @@ export class UserEntity implements IUser {
       data: {
         courseId,
         userId: this._id,
-        state
+        state,
       },
     });
     return this;
+  }
+
+  public getCourseState(courseId: string): PurchaseState {
+    return this.courses.find((c) => c.courseId === courseId)?.purchaseState ?? PurchaseState.Started;
   }
 
   public getPublicProfile() {
